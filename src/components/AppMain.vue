@@ -8,7 +8,11 @@ export default {
   data() {
     return {
 
-      projects: []
+      apiURL: 'http://127.0.0.1:8000/api/projects',
+
+      projects: [],
+
+      pagination: {}, 
 
     }
   },
@@ -18,14 +22,19 @@ export default {
   },  
 
   mounted() {
-    this.getProjects();
+    this.getProjects(this.apiURL);
   },
 
   methods: {
-    getProjects() {
-      axios.get('http://127.0.0.1:8000/api/projects').then(response => {
+    getProjects(apiURL) {
+      axios.get(apiURL).then(response => {
         console.log(response.data.results);
-        this.projects = response.data.results;
+        
+        // mi salvo i progetti
+        this.projects = response.data.results.data;
+
+        // mi salvo anche le variabili di paginazione
+        this.pagination = response.data.results;
       });
     },
   }
@@ -42,11 +51,30 @@ export default {
         <ProjectItem :project="project"></ProjectItem>
       </div>
     </div>
+
+    <hr>
+
+    <div class="projects-navigation">
+
+      <button v-for="link in pagination.links"
+        class="btn" 
+        :class="link.active ? 'btn-primary' : 'btn-outline-secondary'" 
+        v-html="link.label" 
+        :disabled="link.url == null ? true : false" 
+        @click="getProjects(link.url)">
+        
+      </button>
+
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-  
+  .projects-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
 </style>
 
 
