@@ -42,12 +42,18 @@ export default {
       <strong>
         {{project.title}}
       </strong>
+      <em>
+        ({{ project.type ? project.type.name : 'Nessuna tipologia'}})
+      </em>
+      <div class="technologies">
+        <span v-for="technology in project.technologies" class="badge rounded-pill text-bg-secondary">{{ technology.name }}</span>
+      </div>
   
       <p>
         {{ description }}
       </p>
     </div>
-    
+
   </div>
 </template>
 
@@ -71,6 +77,13 @@ $accent: #ee3399;
   
     p {
       opacity: .8;
+    }
+
+    .technologies {
+      display: flex;
+      gap: .4em;
+
+      margin-bottom: 1em;
     }
   }
   
