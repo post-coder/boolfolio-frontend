@@ -52,6 +52,10 @@ export default {
       <p>
         {{ description }}
       </p>
+
+      <hr>
+
+      <router-link class="btn btn-primary" :to="{name: 'singleProject', params: {slug: project.slug}}">Apri</router-link>
     </div>
 
   </div>
